@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>preview</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Console.Menu" Version="2.1.0" />
+    <PackageReference Include="FaustVX.PrimaryParameter.SG" Version="1.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="PrimaryParameter.SG" />
+    <Using Include="CodingQuest" />
+  </ItemGroup>
+
+</Project>
