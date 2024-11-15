@@ -10,6 +10,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/CodingQuest.App/bin/Debug/net9.0/CodingQuest.App.dll",
             "console": "integratedTerminal",
+            "preLaunchTask": "dotnet: build"
         }
 
     ]
