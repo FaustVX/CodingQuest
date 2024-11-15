@@ -5,7 +5,7 @@ sealed partial class Solution([Field(Type = typeof(int[]), AssignFormat = "Helpe
 {
     public int RunCount => 1;
 
-    public string Run(int index)
+    public string Run(int index, bool isTest)
     => Run1().ToString();
 
     public int Run1()

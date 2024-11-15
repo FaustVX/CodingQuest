@@ -19,6 +19,7 @@ var (solution, day) = ConsoleMenu.Helpers.Menu("Select Day", solutions, static s
 var folder = Path.Combine("CodingQuest.App", day.Year.ToString(), day.Day.ToString());
 var inputs = Directory.EnumerateFiles(folder, "*.refin", SearchOption.AllDirectories).ToArray();
 var input = ConsoleMenu.Helpers.Menu("Select input", inputs, static file => file);
+var isTest = new FileInfo(input).Directory!.Name == "test";
 var refout = input.Replace(".refin", ".refout");
 #pragma warning disable CS0642 // Possible mistaken empty statement
 using (_ = File.OpenWrite(refout)) ;
@@ -31,7 +32,7 @@ Console.WriteLine(day.Title);
 for (int i = 0; i < instance.RunCount; i++)
 {
     sw.Restart();
-    var result = instance.Run(i);
+    var result = instance.Run(i, isTest);
     sw.Stop();
     (var outcome, Console.ForegroundColor)
         = output.Length <= i ? ("?", ConsoleColor.Blue)
