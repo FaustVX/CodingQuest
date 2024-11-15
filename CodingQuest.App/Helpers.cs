@@ -3,19 +3,21 @@ namespace CodingQuest;
 
 public static class Helpers
 {
-    public static int[] ParseToIntArray(string input)
+    public static T[] ParseToArray<T>(string input)
+    where T : IParsable<T>
     => input.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries)
-        .Select(int.Parse)
+        .Select(static i => T.Parse(i, null))
         .ToArray();
-    public static int[,] ParseToInt2DArray(string input, int width, string separator)
+    public static T[,] ParseTo2DArray<T>(string input, int width, string separator)
+    where T : IParsable<T>
     {
         var split = input.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries);
-        var array = new int[split.Length, width];
+        var array = new T[split.Length, width];
         for (int y = 0; y < split.Length; y++)
         {
             var line = split[y].Split(separator);
             for (int x = 0; x < width; x++)
-                array[y, x] = int.Parse(line[x]);
+                array[y, x] = T.Parse(line[x], null);
         }
         return array;
     }

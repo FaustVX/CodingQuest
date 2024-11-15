@@ -1,7 +1,7 @@
 namespace CQ_2022_3;
 
 [Day(2022, 3, id:2, "Lottery tickets")]
-sealed partial class Solution([Field(Type = typeof(int[,]), AssignFormat = """Helpers.ParseToInt2DArray({0}, width:6, separator:" ")""")]string input) : ISolution
+sealed partial class Solution([Field(Type = typeof(int[,]), AssignFormat = """Helpers.ParseTo2DArray<int>({0}, width:6, separator:" ")""")]string input) : ISolution
 {
     public int RunCount => 1;
 

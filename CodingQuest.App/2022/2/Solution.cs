@@ -1,7 +1,7 @@
 namespace CQ_2022_2;
 
 [Day(2022, 2, id:1, "Engine diagnostics")]
-sealed partial class Solution([Field(Type = typeof(int[]), AssignFormat = "Helpers.ParseToIntArray({0})")]string input) : ISolution
+sealed partial class Solution([Field(Type = typeof(int[]), AssignFormat = "Helpers.ParseToArray<int>({0})")]string input) : ISolution
 {
     public int RunCount => 1;
 
