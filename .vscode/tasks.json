@@ -10,6 +10,13 @@
 			},
 			"problemMatcher": [],
 			"label": "dotnet: build"
-		}
+		},
+		{
+			"type": "process",
+			"command": "dotnet",
+			"args": ["run", "--configuration", "Release", "--project", "${workspaceFolder}/${workspaceFolderBasename}.App"],
+			"problemMatcher": [],
+			"label": "run"
+		},
 	]
 }

@@ -10,6 +10,11 @@ var solutions = typeof(DayAttribute).Assembly.DefinedTypes
     .ThenByDescending(t => t.day.Day)
     .ToArray();
 
+#if RELEASE
+while (true)
+{
+#endif
+
 var (solution, day) = ConsoleMenu.Helpers.Menu("Select Day", solutions, static s => s.day.ToString());
 var folder = Path.Combine("CodingQuest.App", day.Year.ToString(), day.Day.ToString());
 var inputs = Directory.EnumerateFiles(folder, "*.refin", SearchOption.AllDirectories).ToArray();
@@ -28,9 +33,15 @@ for (int i = 0; i < instance.RunCount; i++)
     sw.Restart();
     var result = instance.Run(i);
     sw.Stop();
-    (var outcome, Console.ForegroundColor) = output.Length <= i ? ("?", ConsoleColor.Blue)
+    (var outcome, Console.ForegroundColor)
+        = output.Length <= i ? ("?", ConsoleColor.Blue)
         : result == output[i] ? ("✓", ConsoleColor.Green)
         : ("X", ConsoleColor.Red);
     Console.WriteLine($"    [{outcome}] {result} in {sw.Elapsed}");
 }
 Console.ResetColor();
+
+#if RELEASE
+Console.ReadLine();
+}
+#endif
