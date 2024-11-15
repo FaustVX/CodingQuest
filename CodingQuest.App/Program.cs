@@ -20,6 +20,7 @@ var output = File.ReadAllLines(refout);
 var instance = (ISolution)Activator.CreateInstance(solution, File.ReadAllText(input))!;
 
 var sw = new Stopwatch();
+Console.WriteLine(day.Title);
 for (int i = 0; i < instance.RunCount; i++)
 {
     sw.Restart();
@@ -28,6 +29,6 @@ for (int i = 0; i < instance.RunCount; i++)
     (var outcome, Console.ForegroundColor) = output.Length <= i ? ("?", ConsoleColor.Blue)
         : result == output[i] ? ("✓", ConsoleColor.Green)
         : ("X", ConsoleColor.Red);
-    Console.WriteLine($"[{outcome}] {result} in {sw.Elapsed}");
+    Console.WriteLine($"    [{outcome}] {result} in {sw.Elapsed}");
 }
 Console.ResetColor();
