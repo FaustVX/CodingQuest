@@ -4,11 +4,13 @@ using System.Diagnostics;
 using System.Reflection;
 
 var solutions = typeof(DayAttribute).Assembly.DefinedTypes
-    .Where(t => t.CustomAttributes.Any(static a => a.AttributeType == typeof(DayAttribute)))
+    .Select(static t => (type: t, day: t.GetCustomAttribute<DayAttribute>()!))
+    .Where(t => t.day is not null)
+    .OrderByDescending(static t => t.day.Year)
+    .ThenByDescending(t => t.day.Day)
     .ToArray();
 
-var solution = ConsoleMenu.Helpers.Menu("Select Day", solutions, static s => s.GetCustomAttribute<DayAttribute>()!.ToString());
-var day = solution.GetCustomAttribute<DayAttribute>()!;
+var (solution, day) = ConsoleMenu.Helpers.Menu("Select Day", solutions, static s => s.day.ToString());
 var folder = Path.Combine("CodingQuest.App", day.Year.ToString(), day.Day.ToString());
 var inputs = Directory.EnumerateFiles(folder, "*.refin", SearchOption.AllDirectories).ToArray();
 var input = ConsoleMenu.Helpers.Menu("Select input", inputs, static file => file);
