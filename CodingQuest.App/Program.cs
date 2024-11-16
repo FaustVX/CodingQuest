@@ -6,9 +6,9 @@ using TextCopy;
 
 var solutions = typeof(DayAttribute).Assembly.DefinedTypes
     .Select(static t => (type: t, day: t.GetCustomAttribute<DayAttribute>()!))
-    .Where(t => t.day is not null)
+    .Where(static t => t.day is not null)
     .OrderByDescending(static t => t.day.Year)
-    .ThenByDescending(t => t.day.Day)
+    .ThenByDescending(static t => t.day.Day)
     .ToArray();
 
 #if RELEASE
