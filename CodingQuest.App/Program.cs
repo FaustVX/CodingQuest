@@ -2,6 +2,7 @@
 
 using System.Diagnostics;
 using System.Reflection;
+using TextCopy;
 
 var solutions = typeof(DayAttribute).Assembly.DefinedTypes
     .Select(static t => (type: t, day: t.GetCustomAttribute<DayAttribute>()!))
@@ -38,6 +39,8 @@ for (int i = 0; i < instance.RunCount; i++)
     sw.Restart();
     var result = instance.Run(i);
     sw.Stop();
+
+    ClipboardService.SetText(result);
 
     (var outcome, Console.ForegroundColor)
         = output.Length <= i ? ("?", ConsoleColor.Blue)
