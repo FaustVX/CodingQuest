@@ -7,8 +7,8 @@ sealed partial class Solution([Field(Type = typeof(string[]), AssignFormat = """
 {
     public int RunCount => 1;
 
-    public string Run(int index, bool isTest)
-    => (isTest ? Run1_test() : Run1()).ToString();
+    public string Run(int index)
+    => (Globals.IsTest ? Run1_test() : Run1()).ToString();
 
     public int Run1_test()
     {

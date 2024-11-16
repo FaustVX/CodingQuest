@@ -28,12 +28,15 @@ using (_ = File.OpenWrite(refout)) ;
 #pragma warning restore CS0642 // Possible mistaken empty statement
 var output = File.ReadAllLines(refout);
 
+Globals.IsTest = isTest;
+Globals.InputFile = input;
+
 var sw = new Stopwatch();
 Console.WriteLine(day.Title);
 for (int i = 0; i < instance.RunCount; i++)
 {
     sw.Restart();
-    var result = instance.Run(i, isTest);
+    var result = instance.Run(i);
     sw.Stop();
 
     (var outcome, Console.ForegroundColor)
@@ -48,3 +51,9 @@ Console.ResetColor();
 Console.ReadLine();
 }
 #endif
+
+public static class Globals
+{
+    public static bool IsTest { get; set;}
+    public static string InputFile { get; set; } = "";
+}

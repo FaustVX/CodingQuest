@@ -7,7 +7,7 @@ sealed partial class Solution([Field(Type = typeof(Point3D[]), AssignFormat = ""
 {
     public int RunCount => 1;
 
-    public string Run(int index, bool isTest)
+    public string Run(int index)
     => Run1().ToString();
 
     public long Run1()
