@@ -46,10 +46,11 @@ readonly partial struct Record([Property] string description, [Property] int num
     private static readonly BigInteger MaxHash = BigInteger.Parse("000000" + new string('f', 64 - 6), NumberStyles.HexNumber);
     public static Record Parse(string s, IFormatProvider? provider)
     {
+        var values = (stackalloc Range[4]);
         var span = s.AsSpan();
-        var pipe = s.IndexOf('|');
+        span.Split(values, '|');
 
-        return new(s[0..pipe++], int.Parse(span[pipe++..s.NextIndexOf('|', ref pipe)]), BigInteger.Parse(span[++pipe..s.NextIndexOf('|', ref pipe)], NumberStyles.HexNumber), BigInteger.Parse(span[++pipe..], NumberStyles.HexNumber));
+        return new(s[values[0]], int.Parse(span[values[1]]), BigInteger.Parse(span[values[2]], NumberStyles.HexNumber), BigInteger.Parse(span[values[3]], NumberStyles.HexNumber));
     }
 
     public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(false)] out Record result)

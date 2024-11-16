@@ -30,9 +30,11 @@ readonly partial struct Point3D([Property]long x, [Property]long y, [Property]lo
 {
     public static Point3D Parse(string s, IFormatProvider? provider)
     {
+        var values = (stackalloc Range[3]);
         var span = s.AsSpan();
-        var space = s.IndexOf(' ');
-        return new(long.Parse(span[0..space]), long.Parse(span[space..s.NextIndexOf(' ', ref space)]), long.Parse(span[space..]));
+        span.Split(values, ' ');
+
+        return new(long.Parse(span[values[0]]), long.Parse(span[values[1]]), long.Parse(span[values[2]]));
     }
 
     public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(false)] out Point3D result)
