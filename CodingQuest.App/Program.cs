@@ -19,18 +19,17 @@ while (true)
 var (solution, day) = ConsoleMenu.Helpers.Menu("Select Day", solutions, static s => s.day.ToString());
 var folder = Path.Combine("CodingQuest.App", day.Year.ToString(), day.Day.ToString());
 var inputs = Directory.EnumerateFiles(folder, "*.refin", SearchOption.AllDirectories).ToArray();
-var input = ConsoleMenu.Helpers.Menu("Select input", inputs, static file => file);
-var isTest = new FileInfo(input).Directory!.Name == "test";
-var instance = (ISolution)Activator.CreateInstance(solution, File.ReadAllText(input))!;
 
-var refout = input.Replace(".refin", ".refout");
+Globals.InputFile = ConsoleMenu.Helpers.Menu("Select input", inputs, static file => file);
+Globals.IsTest = new FileInfo(Globals.InputFile).Directory!.Name == "test";
+
+var instance = (ISolution)Activator.CreateInstance(solution, File.ReadAllText(Globals.InputFile))!;
+
+var refout = Globals.InputFile.Replace(".refin", ".refout");
 #pragma warning disable CS0642 // Possible mistaken empty statement
 using (_ = File.OpenWrite(refout)) ;
 #pragma warning restore CS0642 // Possible mistaken empty statement
 var output = File.ReadAllLines(refout);
-
-Globals.IsTest = isTest;
-Globals.InputFile = input;
 
 var sw = new Stopwatch();
 Console.WriteLine(day.Title);
