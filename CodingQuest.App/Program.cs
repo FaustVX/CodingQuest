@@ -37,6 +37,8 @@ var result = instance.Run();
 sw.Stop();
 
 ClipboardService.SetText(result);
+if (!Globals.IsTest && output.Length == 0)
+    File.WriteAllText(refout, result + Environment.NewLine);
 
 (var outcome, Console.ForegroundColor)
     = output.Length <= 0 ? ("?", ConsoleColor.Blue)
