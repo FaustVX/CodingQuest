@@ -1,5 +1,6 @@
 ﻿// https://codingquest.io/
 
+using System.Collections.Frozen;
 using System.Diagnostics;
 using System.Reflection;
 using TextCopy;
@@ -7,16 +8,17 @@ using TextCopy;
 var solutions = typeof(DayAttribute).Assembly.DefinedTypes
     .Select(static t => (type: t, day: t.GetCustomAttribute<DayAttribute>()!))
     .Where(static t => t.day is not null)
-    .OrderByDescending(static t => t.day.Year)
-    .ThenByDescending(static t => t.day.Day)
-    .ToArray();
+    .OrderByDescending(static t => t.day.Day)
+    .GroupBy(static t => t.day.Year)
+    .ToFrozenDictionary(static t => t.Key, static t => t.ToArray());
 
 #if RELEASE
 while (true)
 {
 #endif
 
-var (solution, day) = ConsoleMenu.Helpers.Menu("Select Day", solutions, static s => s.day.ToString());
+var year = ConsoleMenu.Helpers.Menu("Select Year", solutions.Keys, static s => s.ToString());
+var (solution, day) = ConsoleMenu.Helpers.Menu("Select Day", solutions[year], static s => s.day.ToString());
 var folder = Path.Combine("CodingQuest.App", day.Year.ToString(), day.Day.ToString());
 var inputs = Directory.EnumerateFiles(folder, "*.refin", SearchOption.AllDirectories).ToArray();
 
