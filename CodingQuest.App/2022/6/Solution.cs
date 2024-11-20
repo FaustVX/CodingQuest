@@ -10,12 +10,10 @@ namespace CQ_2022_6;
 [Day(2022, 6, id:5, "Spot the forgery")]
 sealed partial class Solution([Field(Type = typeof(Record[]), AssignFormat = """Helpers.ParseToArray<Record>({0})""")]string input) : ISolution
 {
-    public int RunCount => 1;
-
-    public string Run(int index)
+    public string Run()
     => Run1().ToString("x64");
 
-    public BigInteger Run1()
+    BigInteger Run1()
     {
         var modified = false;
         foreach (ref var record in _input.AsSpan())

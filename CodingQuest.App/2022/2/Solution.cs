@@ -3,12 +3,10 @@ namespace CQ_2022_2;
 [Day(2022, 2, id:1, "Engine diagnostics")]
 sealed partial class Solution([Field(Type = typeof(int[]), AssignFormat = "Helpers.ParseToArray<int>({0})")]string input) : ISolution
 {
-    public int RunCount => 1;
-
-    public string Run(int index)
+    public string Run()
     => Run1().ToString();
 
-    public int Run1()
+    int Run1()
     {
         var min = 1500 * 60;
         var max = 1600 * 60;

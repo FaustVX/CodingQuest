@@ -31,22 +31,18 @@ using (_ = File.OpenWrite(refout)) ;
 #pragma warning restore CS0642 // Possible mistaken empty statement
 var output = File.ReadAllLines(refout);
 
-var sw = new Stopwatch();
 Console.WriteLine(day.Title);
-for (int i = 0; i < instance.RunCount; i++)
-{
-    sw.Restart();
-    var result = instance.Run(i);
-    sw.Stop();
+var sw = Stopwatch.StartNew();
+var result = instance.Run();
+sw.Stop();
 
-    ClipboardService.SetText(result);
+ClipboardService.SetText(result);
 
-    (var outcome, Console.ForegroundColor)
-        = output.Length <= i ? ("?", ConsoleColor.Blue)
-        : result == output[i] ? ("✓", ConsoleColor.Green)
-        : ("X", ConsoleColor.Red);
-    Console.WriteLine($"    [{outcome}] {result} in {sw.Elapsed}");
-}
+(var outcome, Console.ForegroundColor)
+    = output.Length <= 0 ? ("?", ConsoleColor.Blue)
+    : result == output[0] ? ("✓", ConsoleColor.Green)
+    : ("X", ConsoleColor.Red);
+Console.WriteLine($"    [{outcome}] {result} in {sw.Elapsed}");
 Console.ResetColor();
 
 #if RELEASE

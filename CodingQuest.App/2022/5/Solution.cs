@@ -5,17 +5,13 @@ namespace CQ_2022_5;
 [Day(2022, 5, id:4, "Obsessing over Connect 4")]
 sealed partial class Solution([Field(Type = typeof(string[]), AssignFormat = """Helpers.ParseToArray<string>({0})""")]string input) : ISolution
 {
-    public int RunCount => 1;
-
-    public string Run(int index)
+    public string Run()
     => (Globals.IsTest ? Run1_test() : Run1()).ToString();
 
-    public int Run1_test()
-    {
-        return PlayGame(_input[0]);
-    }
+    int Run1_test()
+    => PlayGame(_input[0]);
 
-    public int Run1()
+    int Run1()
     {
         var winnings = (stackalloc int[4]);
         foreach (var moves in _input)

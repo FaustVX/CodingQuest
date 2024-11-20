@@ -7,12 +7,10 @@ namespace CQ_2022_9;
 [Day(2022, 9, id:6, "Debugging")]
 sealed partial class Solution([Field(Type = typeof(OpCode[]), AssignFormat = """Helpers.ParseToArray<OpCode>({0})""")]string input) : ISolution
 {
-    public int RunCount => 1;
-
-    public string Run(int index)
+    public string Run()
     => Run1();
 
-    public string Run1()
+    string Run1()
     {
         var cpu = new CPU(_input);
         cpu.Run();

@@ -6,9 +6,7 @@ namespace CQ_2022_13;
 [Day(2022, 13, id:10, "A special painting")]
 sealed partial class Solution([Field(Type = typeof(Uri), AssignFormat = """new({0})""")]string input) : ISolution
 {
-    public int RunCount => 1;
-
-    public string Run(int index)
+    public string Run()
     {
         var png = CreatePNG(_input);
         return Globals.IsTest ? RunTest(png) : Run1(png);
@@ -23,7 +21,7 @@ sealed partial class Solution([Field(Type = typeof(Uri), AssignFormat = """new({
         }
     }
 
-    public string Run1(Png png)
+    string Run1(Png png)
     {
         var (width, height) = (png.Width, png.Height);
         var datas = (stackalloc byte[width * height / 8]);
@@ -39,7 +37,7 @@ sealed partial class Solution([Field(Type = typeof(Uri), AssignFormat = """new({
         return Encoding.ASCII.GetString(datas[datas.LastIndexOf((byte)' ')..datas.IndexOf(default(byte))][1..^1]);
     }
 
-    public string RunTest(Png png)
+    string RunTest(Png png)
     {
         var (width, height) = (png.Width / 16, png.Height / 16);
         var datas = (stackalloc byte[width * height / 8]);

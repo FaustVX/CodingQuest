@@ -3,9 +3,7 @@ namespace CQ_2022_11;
 [Day(2022, 11, id:8, "Message from home")]
 sealed partial class Solution([Field(AssignFormat = """{0}.TrimEnd()""")]string input) : ISolution
 {
-    public int RunCount => 1;
-
-    public string Run(int index)
+    public string Run()
     {
         var (key, range) = Globals.InputFile[^7] switch
         {
@@ -17,7 +15,7 @@ sealed partial class Solution([Field(AssignFormat = """{0}.TrimEnd()""")]string 
         return Run1(key, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,;:?! '()".AsSpan(range)).ToString();
     }
 
-    public string Run1(ReadOnlySpan<char> key, ReadOnlySpan<char> charSet)
+    string Run1(ReadOnlySpan<char> key, ReadOnlySpan<char> charSet)
     {
         var output = (stackalloc char[_input.Length]);
         var offsets = (stackalloc int[key.Length]);

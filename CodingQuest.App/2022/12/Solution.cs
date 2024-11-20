@@ -6,14 +6,10 @@ namespace CQ_2022_12;
 [Day(2022, 12, id:9, "Lost in an alien market!")]
 sealed partial class Solution([Field(Type = typeof(bool[,]), AssignFormat = """"Helpers.ParseTo2DArrayStruct<bool>({0}, width:Globals.IsTest ? 21 : 401, parser: Parser)"""")]string input) : ISolution
 {
-    public int RunCount => 1;
+    public string Run()
+    => Run1().ToString();
 
-    public string Run(int index)
-    {
-        return Run1().ToString();
-    }
-
-    public int Run1()
+    int Run1()
     => Traverse(FindEntrance(_input, 0), FindEntrance(_input, ^1), []).Length;
 
     ImmutableArray<(int x, int y)> Traverse((int x,int y) pos, (int x, int y) end, ImmutableArray<(int x, int y)> path)

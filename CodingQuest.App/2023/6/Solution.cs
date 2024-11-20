@@ -5,14 +5,10 @@ namespace CQ_2023_6;
 [Day(2023, 6, id:18, "Inventory check")]
 sealed partial class Solution([Field(Type = typeof(Record[]), AssignFormat = "Helpers.ParseToArray<Record>({0})")]string input) : ISolution
 {
-    public int RunCount => 1;
+    public string Run()
+    => Run1().ToString();
 
-    public string Run(int index)
-    {
-        return Run1().ToString();
-    }
-
-    public long Run1()
+    long Run1()
     => _input
         .AggregateBy(r => r.Category, 0, (acc, r) => acc + r.Quantity)
         .Aggregate(1L, (acc, g) => acc * (g.Value % 100));

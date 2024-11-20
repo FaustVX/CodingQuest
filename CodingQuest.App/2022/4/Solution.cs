@@ -5,12 +5,10 @@ namespace CQ_2022_4;
 [Day(2022, 4, id:3, "Tour the stars")]
 sealed partial class Solution([Field(Type = typeof(Point3D[]), AssignFormat = """Helpers.ParseToArray<Point3D>({0})""")]string input) : ISolution
 {
-    public int RunCount => 1;
-
-    public string Run(int index)
+    public string Run()
     => Run1().ToString();
 
-    public long Run1()
+    long Run1()
     {
         var distance = 0L;
         var previous = default(Point3D);

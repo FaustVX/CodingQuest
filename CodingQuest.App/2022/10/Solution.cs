@@ -5,9 +5,7 @@ namespace CQ_2022_10;
 [Day(2022, 10, id:7, "Check the heat shields")]
 sealed partial class Solution([Field(Type = typeof(Rectangle[]), AssignFormat = """Helpers.ParseToArray<Rectangle>({0})""")]string input) : ISolution
 {
-    public int RunCount => 1;
-
-    public string Run(int index)
+    public string Run()
     {
         var (width, height) = Globals.InputFile[^7] switch
         {
@@ -18,7 +16,7 @@ sealed partial class Solution([Field(Type = typeof(Rectangle[]), AssignFormat = 
         return Run1(width, height).ToString();
     }
 
-    public int Run1(int width, int height)
+    int Run1(int width, int height)
     {
         var total = width * height;
         for (int x = 0; x < width; x++)
