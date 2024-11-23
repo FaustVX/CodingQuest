@@ -1,14 +1,16 @@
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace CodingQuest;
 
+[DebuggerStepThrough]
 public static class Helpers
 {
+    public delegate int From2DTo1DHandler(int x, int y);
+
     public static T[] ParseToArray<T>(string input)
     where T : IParsable<T>
-    => input.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries)
-        .Select(static i => T.Parse(i, null))
-        .ToArray();
+    => [.. input.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries).Select(static i => T.Parse(i, null))];
 
     public static T[,] ParseTo2DArray<T>(string input, int width, string separator)
     where T : IParsable<T>
@@ -49,4 +51,7 @@ public static class Helpers
         }
         return array;
     }
+
+    public static From2DTo1DHandler From2DTo1D(int width)
+    => [DebuggerStepThrough](int x, int y) => y * width + x;
 }

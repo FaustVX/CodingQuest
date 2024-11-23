@@ -5,6 +5,8 @@ namespace CQ_2022_5;
 [Day(2022, 5, id:4, "Obsessing over Connect 4")]
 sealed partial class Solution([Field(Type = typeof(string[]), AssignFormat = """Helpers.ParseToArray<string>({0})""")]string input) : ISolution
 {
+    static readonly Helpers.From2DTo1DHandler From2Dto1D = Helpers.From2DTo1D(7);
+
     public string Run()
     => (Globals.IsTest ? Run1_test() : Run1()).ToString();
 
@@ -33,10 +35,6 @@ sealed partial class Solution([Field(Type = typeof(string[]), AssignFormat = """
             rounds++;
         }
         return 0;
-
-        [DebuggerStepThrough]
-        static int From2Dto1D(int x, int y)
-        => y * 7 + x;
 
         static void DropToken(int column, Span<byte> board, int player)
         {
