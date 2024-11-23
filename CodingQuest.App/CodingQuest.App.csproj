@@ -12,7 +12,7 @@
     <!-- Big Gustave to read PNG files -->
     <PackageReference Include="BigGustave" Version="1.0.6" />
     <PackageReference Include="Console.Menu" Version="2.1.0" />
-    <PackageReference Include="FaustVX.PrimaryParameter.SG" Version="1.8.1" />
+    <PackageReference Include="FaustVX.PrimaryParameter.SG" Version="1.9.1" />
     <PackageReference Include="TextCopy" Version="6.2.1" />
   </ItemGroup>
 
