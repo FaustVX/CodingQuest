@@ -53,5 +53,26 @@ public static class Helpers
     }
 
     public static From2DTo1DHandler From2DTo1D(int width)
-    => [DebuggerStepThrough](int x, int y) => y * width + x;
+    => [DebuggerStepThrough] (int x, int y) =>
+        {
+            ArgumentOutOfRangeException.ThrowIfLessThan(y, 0);
+            ArgumentOutOfRangeException.ThrowIfLessThan(x, 0);
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(x, width);
+            return y * width + x;
+        };
+
+    public static From2DTo1DHandler From2DTo1D(int width, bool checkRange)
+    => checkRange
+        ? From2DTo1D(width)
+        : [DebuggerStepThrough] (int x, int y) => y * width + x;
+
+    public static From2DTo1DHandler From2DTo1D(int width, int height)
+    => [DebuggerStepThrough] (int x, int y) =>
+        {
+            ArgumentOutOfRangeException.ThrowIfLessThan(y, 0);
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(y, height);
+            ArgumentOutOfRangeException.ThrowIfLessThan(x, 0);
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(x, width);
+            return y * width + x;
+        };
 }
