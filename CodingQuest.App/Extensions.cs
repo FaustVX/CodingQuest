@@ -49,4 +49,6 @@ public static class Extensions
 
         return false;
     }
+
+    public static Span2D<T> AsSpan2D<T>(this T[,] array) => array;
 }

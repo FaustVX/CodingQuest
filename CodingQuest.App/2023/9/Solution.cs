@@ -7,8 +7,6 @@ namespace CQ_2023_9;
 [Day(2023, 9, id:21, "Mayday!")]
 sealed partial class Solution([Field(Type = typeof(Message[]), AssignFormat = """Helpers.ParseToArray<Message>({0})""")]string input) : ISolution
 {
-    static readonly Helpers.From2DTo1DHandler From2Dto1D = Helpers.From2DTo1D(3);
-
     public string Run()
     => Run1().ToString();
 

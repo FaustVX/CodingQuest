@@ -5,41 +5,28 @@ namespace CQ_2023_10;
 [Day(2023, 10, id:22, "Decoding pixels")]
 sealed partial class Solution([Field(Type = typeof(Rectangle[]), AssignFormat = """Helpers.ParseToArray<Rectangle>({0})""")]string input) : ISolution
 {
-    static readonly Helpers.From2DTo1DHandler From2Dto1D = Helpers.From2DTo1D(50);
-
     public string Run()
-    => Globals.IsTest ? RunTest() : Run1();
-
-    string Run1()
     {
-        var from2Dto1D = Helpers.From2DTo1D(50);
-        var display = (stackalloc bool[50 * 10]);
+        var (w, h) = Globals.IsTest ? (8, 8) : (50, 10);
+        return Run1(w, h);
+    }
+
+    string Run1(int width, int height)
+    {
+        var display = new Span2D<bool>(stackalloc bool[width * height], width);
         foreach (var (x, y) in _input.SelectMany(static r => r.GetPoints()))
-            display[from2Dto1D(x, y)] ^= true;
-        DrawBoard(display, 50);
+            display[x, y] ^= true;
+        DrawBoard(display);
 
         return Console.ReadLine()!; // can't use OCR because the font isn't monospace.
     }
 
-    string RunTest()
+    static void DrawBoard(ReadOnlySpan2D<bool> board)
     {
-        var from2Dto1D = Helpers.From2DTo1D(8);
-        var display = (stackalloc bool[8 * 8]);
-        foreach (var (x, y) in _input.SelectMany(static r => r.GetPoints()))
-            display[from2Dto1D(x, y)] ^= true;
-        DrawBoard(display, 8);
-
-        return Console.ReadLine()!; // can't use OCR because the font isn't monospace.
-    }
-
-    static void DrawBoard(ReadOnlySpan<bool> board, int width)
-    {
-        var from2Dto1D = Helpers.From2DTo1D(width);
-        var height = board.Length / width;
-        for (int y = 0; y < height; y++)
+        for (int y = 0; y < board.Height; y++)
         {
-            for (int x = 0; x < width; x++)
-                Console.Write(board[from2Dto1D(x, y)] ? '#' : ' ');
+            for (int x = 0; x < board.Width; x++)
+                Console.Write(board[x, y] ? '#' : ' ');
             Console.WriteLine();
         }
     }

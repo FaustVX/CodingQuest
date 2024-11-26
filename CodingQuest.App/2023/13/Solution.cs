@@ -6,14 +6,12 @@ namespace CQ_2023_13;
 [Day(2023, 13, id:23, "Avoid the asteroids")]
 sealed partial class Solution([Field(Type = typeof(Asteroid[]), AssignFormat = """Helpers.ParseToArray<Asteroid>({0})""")]string input) : ISolution
 {
-    static readonly Helpers.From2DTo1DHandler From2Dto1D = Helpers.From2DTo1D(100, checkRange: false);
-
     public string Run()
     => Run1();
 
     string Run1()
     {
-        var space = (stackalloc bool[100 * 100]);
+        var space = new Span2D<bool>(stackalloc bool[100 * 100], 100);
         MoveStep(_input, space, 3600);
 
         for (int i = 0; i < 60; i++)
@@ -22,18 +20,18 @@ sealed partial class Solution([Field(Type = typeof(Asteroid[]), AssignFormat = "
         var passage = FindPassage(space);
         return $"{passage.x}:{passage.y}";
 
-        static void MoveStep(Span<Asteroid> asteroids, Span<bool> space, int steps = 1)
+        static void MoveStep(Span<Asteroid> asteroids, Span2D<bool> space, int steps = 1)
         {
             foreach (ref var a in asteroids)
                 if ((a = a with { X = checked((short)(a.X + steps * a.HSpeed)), Y = checked((short)(a.Y + steps * a.VSpeed)) }).IsValid)
-                    space[From2Dto1D(a.X, a.Y)] = true;
+                    space[a.X, a.Y] = true;
         }
 
-        static (int x, int y) FindPassage(ReadOnlySpan<bool> space)
+        static (int x, int y) FindPassage(ReadOnlySpan2D<bool> space)
         {
-            for (int y = 0; y < 100; y++)
-                for (int x = 0; x < 100; x++)
-                    if (!space[From2Dto1D(x, y)])
+            for (int y = 0; y < space.Height; y++)
+                for (int x = 0; x < space.Width; x++)
+                    if (!space[x, y])
                         return (x, y);
             throw new UnreachableException();
         }

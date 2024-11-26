@@ -1,12 +1,8 @@
-using System.Diagnostics;
-
 namespace CQ_2022_5;
 
 [Day(2022, 5, id:4, "Obsessing over Connect 4")]
 sealed partial class Solution([Field(Type = typeof(string[]), AssignFormat = """Helpers.ParseToArray<string>({0})""")]string input) : ISolution
 {
-    static readonly Helpers.From2DTo1DHandler From2Dto1D = Helpers.From2DTo1D(7);
-
     public string Run()
     => (Globals.IsTest ? Run1_test() : Run1()).ToString();
 
@@ -23,7 +19,7 @@ sealed partial class Solution([Field(Type = typeof(string[]), AssignFormat = """
 
     static int PlayGame(ReadOnlySpan<char> moves)
     {
-        var board = (stackalloc byte[7*7]);
+        var board = new Span2D<byte>(stackalloc byte[7*7], 7);
         var currentPlayer = 1;
         var rounds = 1;
         foreach (var move in moves)
@@ -36,61 +32,69 @@ sealed partial class Solution([Field(Type = typeof(string[]), AssignFormat = """
         }
         return 0;
 
-        static void DropToken(int column, Span<byte> board, int player)
+        static void DropToken(int column, Span2D<byte> board, int player)
         {
-            ref var pos = ref board[0];
+            ref var pos = ref board[0, 0];
             for (var i = 0; i < 7; i++)
-                if ((pos = ref board[From2Dto1D(column, i)]) == 0)
+                if ((pos = ref board[column, i]) == 0)
                 {
                     pos = (byte)player;
                     return;
                 }
         }
 
-        static bool CheckGame(ReadOnlySpan<byte> board, byte player)
+        static bool CheckGame(ReadOnlySpan2D<byte> board, byte player)
         {
-            for (int x = 0; x < 7; x++)
-                for (int y = 0; y < 7; y++)
-                    if (player == board[From2Dto1D(x, y)] && (CheckLine(x, y, board, player) || CheckColumn(x, y, board, player) || CheckDiagonal1(x, y, board, player) || CheckDiagonal2(x, y, board, player)))
+            ReadOnlySpan<Func<int, int, ReadOnlySpan2D<byte>, byte, bool>> conditions =
+            [
+                CheckLine,
+                CheckColumn,
+                CheckDiagonal1,
+                CheckDiagonal2,
+            ];
+
+            for (int x = 0; x < board.Width; x++)
+                for (int y = 0; y < board.Height; y++)
+                    if (player == board[x, y] && conditions.Any(board, (condition, board) => condition(x, y, board, player)))
                         return true;
             return false;
 
-            static bool CheckLine(int x, int y, ReadOnlySpan<byte> board, byte player)
+            static bool CheckLine(int x, int y, ReadOnlySpan2D<byte> board, byte player)
             {
                 if (x > 3)
                     return false;
                 for (int i = 0; i < 4; i++)
-                    if (board[From2Dto1D(x + i, y)] != player)
+                    if (board[x + i, y] != player)
                         return false;
                 return true;
             }
 
-            static bool CheckColumn(int x, int y, ReadOnlySpan<byte> board, byte player)
+            static bool CheckColumn(int x, int y, ReadOnlySpan2D<byte> board, byte player)
             {
                 if (y > 3)
                     return false;
                 for (int i = 0; i < 4; i++)
-                    if (board[From2Dto1D(x, y + i)] != player)
+                    if (board[x, y + i] != player)
                         return false;
                 return true;
             }
 
-            static bool CheckDiagonal1(int x, int y, ReadOnlySpan<byte> board, byte player)
+            static bool CheckDiagonal1(int x, int y, ReadOnlySpan2D<byte> board, byte player)
             {
                 if (x > 3 || y > 3)
                     return false;
                 for (int i = 0; i < 4; i++)
-                    if (board[From2Dto1D(x + i, y + i)] != player)
+                    if (board[x + i, y + i] != player)
                         return false;
                 return true;
             }
 
-            static bool CheckDiagonal2(int x, int y, ReadOnlySpan<byte> board, byte player)
+            static bool CheckDiagonal2(int x, int y, ReadOnlySpan2D<byte> board, byte player)
             {
                 if (x < 3 || y > 3)
                     return false;
                 for (int i = 0; i < 4; i++)
-                    if (board[From2Dto1D(x - i, y + i)] != player)
+                    if (board[x - i, y + i] != player)
                         return false;
                 return true;
             }
