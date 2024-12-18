@@ -51,4 +51,13 @@ public static class Extensions
     }
 
     public static Span2D<T> AsSpan2D<T>(this T[,] array) => array;
+
+    /// <inheritdoc cref="MemoryExtensions.Split(ReadOnlySpan{char}, Span{Range}, ReadOnlySpan{char}, StringSplitOptions)"/>>
+    public static int Split(this ReadOnlySpan<char> source, Span<Range> destination)
+    {
+        var length = Math.Min(source.Length, destination.Length);
+        for (int i = 0; i < length; i++)
+            destination[i] = new(i, i + 1);
+        return length;
+    }
 }

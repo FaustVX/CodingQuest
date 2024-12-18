@@ -12,6 +12,10 @@ public static class Helpers
     where T : IParsable<T>
     => [.. input.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries).Select(static i => T.Parse(i, null))];
 
+    public static T[] ParseToArray<T>(string input, params char[] separators)
+    where T : IParsable<T>
+    => [.. input.Split(separators, StringSplitOptions.RemoveEmptyEntries).Select(static i => T.Parse(i, null))];
+
     public static T[,] ParseTo2DArray<T>(string input, int width, string separator)
     where T : IParsable<T>
     {
